@@ -1,176 +1,130 @@
 package com.synergy.service;
 
-import com.synergy.data.Menu;
-import com.synergy.data.ReceiptItem;
-import com.synergy.data.Transaction;
-import com.synergy.utils.MenuReader;
-import com.synergy.utils.ReceiptWriter;
+import com.synergy.model.Menu;
+import com.synergy.model.Transaction;
+import com.synergy.repository.MenuRepository;
+import com.synergy.repository.TransactionRepository;
 import dnl.utils.text.table.TextTable;
 
-import javax.sound.midi.Soundbank;
-import java.util.*;
-
 public class RestaurantService {
-    private final String restaurantName;
-    private List<Menu> menus;
+    private final MenuRepository menuRepository;
+    private final TransactionRepository transactionRepository;
     private TextTable menusTextTable;
-    private TextTable transactionTextTable;
-    private Transaction transaction;
+    private TextTable chosenMenuTextTable;
+    private TextTable currTransactionTextTable;
 
-    public RestaurantService(String restaurantName) {
-        this.restaurantName = restaurantName;
-        this.transaction = new Transaction();
+    public RestaurantService(MenuRepository menuRepository, TransactionRepository transactionRepository) {
+        this.menuRepository = menuRepository;
+        this.transactionRepository = transactionRepository;
+
+        this.loadMenuTextTable();
     }
 
-    private void loadMenu() throws RuntimeException {
-        MenuReader menuReader = new MenuReader("menus.csv");
-        try {
-            menuReader.readMenuFromCSV();
-        } catch (RuntimeException e) {
-            throw e;
-        }
-        this.menus = menuReader.getMenus();
+    public boolean isMenuExists(String menuId) {
+        return this.menuRepository.isExists(menuId);
     }
 
-    private void generateReceipt() throws RuntimeException {
-        List<ReceiptItem> receiptItems = new ArrayList<>();
+    public TextTable getMenusTextTable() {
+        return menusTextTable;
+    }
 
-        Map<Integer, Integer> transactionItems = this.transaction.getItems();
-        for (Map.Entry<Integer, Integer> item : transactionItems.entrySet()) {
-            Menu menu = this.menus.get(item.getKey());
-            receiptItems.add(new ReceiptItem(menu.getName(), menu.getPrice(), item.getKey()));
-        }
+    public TextTable getChosenMenuTextTable() {
+        return chosenMenuTextTable;
+    }
 
-        ReceiptWriter receiptWriter = new ReceiptWriter(this.restaurantName, receiptItems, this.transaction.getTotalPrice());
-        receiptWriter.generateReceipt();
+    public TextTable getCurrTransactionTextTable() {
+        return currTransactionTextTable;
     }
 
     private void loadMenuTextTable() {
         String[] columnNames = {
-                "Opsi",
-                "Nama",
-                "Harga"
+                "CODE",
+                "MENU",
+                "PRICE"
         };
-        int menusCount = this.menus.toArray().length;
-        String[][] menusData = new String[menusCount + 2][3];
 
-        for (int i=0; i<menusCount; i++) {
-            menusData[i][0] = String.valueOf(this.menus.get(i).getId() + 1);
-            menusData[i][1] = this.menus.get(i).getName();
-            menusData[i][2] = String.format("Rp. %d", this.menus.get(i).getPrice());
+        String[][] menusData = new String[this.menuRepository.count() + 2][3];
+        int row = 0;
+        for (Menu menu : this.menuRepository.findAll()) {
+            menusData[row][0] = menu.id;
+            menusData[row][1] = menu.name;
+            menusData[row][2] = String.format("Rp. %,d", menu.price);
+            row++;
         }
-        menusData[menusCount][0] = String.valueOf(menusCount + 1);
-        menusData[menusCount][1] = "Pesan dan bayar";
-        menusData[menusCount][2] = "";
 
-        menusData[menusCount + 1][0] = String.valueOf(0);
-        menusData[menusCount + 1][1] = "Keluar aplikasi";
-        menusData[menusCount + 1][2] = "";
+        menusData[row][0] = "O";
+        menusData[row][1] = "Order and pay";
+        menusData[row][2] = "";
+
+        menusData[row + 1][0] = "X";
+        menusData[row + 1][1] = "Stop app";
+        menusData[row + 1][2] = "";
 
         this.menusTextTable = new TextTable(columnNames, menusData);
     }
 
-    private void loadTransactionTextTable() {
+    public void loadChosenMenuTextTable(String menuId) {
         String[] columnNames = {
-                "Menu",
-                "Harga",
-                "Quantity"
+                "CODE",
+                "MENU",
+                "PRICE",
+                "ORDERED"
         };
 
-        Map<Integer, Integer> transactionItems = this.transaction.getItems();
-        int itemsCount = transactionItems.size();
-        String[][] itemsData = new String[itemsCount][3];
+        Menu menu = this.menuRepository.findById(menuId);
+        String[][] menuData = new String[5][4];
+        menuData[0][0] = menu.id;
+        menuData[0][1] = menu.name;
+        menuData[0][2] = String.format("Rp. %,d", menu.price);
+        // if menu already ordered
+        boolean isOrdered = this.transactionRepository.isExists(menu.id);
+        if (isOrdered) {
+            menuData[0][3] = String.valueOf(this.transactionRepository.findByMenuId(menu.id).quantity);
+        } else {
+            menuData[0][3] = String.valueOf(0);
+        }
 
+        menuData[1][0] = "0";
+        menuData[1][1] = "Press 0 to back to menu";
+
+        if (!isOrdered) {
+            menuData[2][0] = "1";
+            menuData[2][1] = "Press 1 to add quantity";
+        }
+
+        if (isOrdered) {
+            menuData[3][0] = "2";
+            menuData[3][1] = "Press 2 to edit quantity";
+            menuData[4][0] = "3";
+            menuData[4][1] = "Press 3 delete order";
+        }
+
+        this.chosenMenuTextTable = new TextTable(columnNames, menuData);
+    }
+
+    public void loadCurrTransactionTextTable() {
+        String[] columnNames = {
+                "CODE",
+                "MENU",
+                "PRICE",
+                "QTY"
+        };
+
+        String[][] transactionData = new String[this.transactionRepository.count() + 2][4];
         int row = 0;
-        for (Map.Entry<Integer, Integer> item : transactionItems.entrySet()) {
-            Menu menu = this.menus.get(item.getKey());
-            itemsData[row][0] = menu.getName();
-            itemsData[row][1] = String.format("Rp. %d", menu.getPrice());
-            itemsData[row][2] = String.valueOf(item.getValue());
+        for (Transaction transaction : this.transactionRepository.getAll()) {
+            Menu menu = this.menuRepository.findById(transaction.menuId);
+            transactionData[row][0] = menu.id;
+            transactionData[row][1] = menu.name;
+            transactionData[row][2] = String.format("Rp. %,d", menu.price);
+            transactionData[row][3] = String.valueOf(transaction.quantity);
             row += 1;
         }
+        transactionData[row][0] = "Y";
+        transactionData[row][1] = "Confirm";
+        transactionData[row + 1][0] = "N";
+        transactionData[row + 1][1] = "Back to menu";
 
-        this.transactionTextTable = new TextTable(columnNames, itemsData);
-    }
-
-    private int chooseOption() {
-        int option = 0;
-        boolean continueWaiting = true;
-
-        while(continueWaiting) {
-            try {
-                System.out.print("-> ");
-                Scanner sc = new Scanner(System.in);
-                option = sc.nextInt();
-
-                if (option < 0) {
-                    throw new InputMismatchException();
-                }
-
-                continueWaiting = false;
-            } catch (InputMismatchException e) {
-                System.out.println("Silahkan masukan pilihan Anda!");
-            }
-        }
-        System.out.println();
-
-        return option;
-    }
-
-    public void displayMenu(int id) {
-        Menu menu = this.menus.get(id);
-        System.out.format("\n%s\t|%15s%n", menu.getName(), "Rp. " + menu.getPrice());
-        System.out.println("Tekan 0 untuk kembali ke menu...");
-    }
-
-    public void run() throws RuntimeException {
-        this.loadMenu();
-        this.loadMenuTextTable();
-
-        int menusCount = this.menus.toArray().length;
-        boolean chooseMenuSession = true;
-        int option = 0;
-
-        while (chooseMenuSession) {
-            System.out.println("Welcome to " + this.restaurantName + "!");
-            this.menusTextTable.printTable();
-
-            System.out.println("Masukan opsi Anda : ");
-            option = this.chooseOption();
-            if (option == 0) {
-                chooseMenuSession = false;
-            } else if (option > 0 && option <= menusCount) {
-                int menuId = option - 1;
-                this.displayMenu(menuId);
-                System.out.print("quantity");
-                option = this.chooseOption();
-                if (option > 0) {
-                    Menu menu = this.menus.get(menuId);
-                    this.transaction.addItems(this.menus.get(menuId), option);
-                }
-            } else if (option == (menusCount + 1)) {
-                System.out.println("\nKonfirmasi pembayaran");
-                this.loadTransactionTextTable();
-                this.transactionTextTable.printTable();
-                System.out.printf("Total bayar : Rp. %d\n%n", this.transaction.getTotalPrice());
-                System.out.println("1. Konfirmasi bayar\n2. Kembali ke menu utama\n0. Keluar aplikasi");
-
-                option = this.chooseOption();
-                if (option == 1) {
-                    this.generateReceipt();
-                    chooseMenuSession = false;
-                } else if (option == 2) {
-                    continue;
-                } else {
-                    chooseMenuSession = false;
-                }
-            }else {
-                System.out.println("Silahkan pilih opsi!\n");
-            }
-        }
-
-        if (option == 0) {
-            return;
-        }
+        this.currTransactionTextTable = new TextTable(columnNames, transactionData);
     }
 }

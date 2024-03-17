@@ -1,6 +1,7 @@
 package com.synergy.utils;
 
-import com.synergy.data.ReceiptItem;
+import com.synergy.model.Receipt;
+import com.synergy.model.ReceiptItem;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -10,74 +11,71 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class ReceiptWriter {
-    private final String RECEIPT_FOLDER_PATH;
-    private final String RECEIPT_FOLDER_NAME;
-    private final String RECEIPT_FILENAME;
-    private final Date createdAt;
-    private final String merchantName;
-    private final List<ReceiptItem> receiptItems;
-    private final int totalPrice;
-
-    public ReceiptWriter(String merchantName, List<ReceiptItem> receiptItems, int totalPrice) {
-        this.RECEIPT_FOLDER_PATH = System.getProperty("user.dir");
-        this.RECEIPT_FOLDER_NAME = "receipts";
-        this.createdAt = new Date();
-        this.merchantName = merchantName;
-        String receiptFileNameDate = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(this.createdAt);
-        this.RECEIPT_FILENAME = String.format("RECEIPT_%s.pdf", receiptFileNameDate);
-        this.receiptItems = receiptItems;
-        this.totalPrice = totalPrice;
-    }
-
-    public void generateReceipt() throws RuntimeException {
+    public static void writeToPDF(String folderName, Receipt receipt) throws RuntimeException {
+        String folderPath = System.getProperty("user.dir");
         try {
-            File receiptFolder = new File(this.RECEIPT_FOLDER_PATH + "/" + this.RECEIPT_FOLDER_NAME);
+            File receiptFolder = new File(folderPath + "/" + folderName);
             if (!receiptFolder.exists()) {
                 receiptFolder.mkdir();
             }
 
-            PDDocument receipt = new PDDocument();
-            receipt.addPage(new PDPage());
+            PDDocument receiptDoc = new PDDocument();
+            receiptDoc.addPage(new PDPage());
 
-            PDPage page = receipt.getPage(0);
-            PDPageContentStream contentStream = new PDPageContentStream(receipt, page, PDPageContentStream.AppendMode.APPEND,true,true);
+            PDPage page = receiptDoc.getPage(0);
+            PDPageContentStream contentStream = new PDPageContentStream(receiptDoc, page, PDPageContentStream.AppendMode.APPEND,true,true);
 
             contentStream.beginText();
-            contentStream.setFont(PDType1Font.TIMES_ROMAN, 12);
+            contentStream.setFont(PDType1Font.HELVETICA, 12);
             contentStream.setLeading(14.5f);
             contentStream.newLineAtOffset(25, 725);
 
-            contentStream.showText(this.merchantName + " receipt");
+            contentStream.showText(receipt.merchantName + " receipt");
             contentStream.newLine();
 
             contentStream.showText("=============================================");
             contentStream.newLine();
 
-            for (ReceiptItem item: this.receiptItems) {
-                contentStream.showText(item.getString());
+            contentStream.showText(String.format("RECEIPT ID : %s", receipt.id));
+            contentStream.newLine();
+
+            Date createdAt = new Date();
+            String receiptDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(createdAt);
+            contentStream.showText(receiptDate);
+            contentStream.newLine();
+
+            contentStream.showText("=============================================");
+            contentStream.newLine();
+
+            for (ReceiptItem receiptItem: receipt.items) {
+                contentStream.showText(
+                        String.format("%s: Rp. %,d x %d pcs",
+                                receiptItem.menuName,
+                                receiptItem.menuPrice,
+                                receiptItem.menuQuantity));
                 contentStream.newLine();
             }
 
             contentStream.showText("=============================================");
             contentStream.newLine();
-            contentStream.showText(String.format("Total harga : Rp. %d", this.totalPrice));
+
+            contentStream.showText(String.format("Total : Rp. %,d", receipt.totalPrice));
             contentStream.newLine();
 
             contentStream.close();
-
-            receipt.save(String.format("%s/%s/%s",
-                    this.RECEIPT_FOLDER_PATH,
-                    this.RECEIPT_FOLDER_NAME,
-                    this.RECEIPT_FILENAME));
-            receipt.close();
-
-            System.out.println("Receipt created.");
+            String receiptFileNameDate = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(createdAt);
+            String fileName = String.format("RECEIPT_%s.pdf", receiptFileNameDate);
+            System.out.println(folderPath + "/" + fileName);
+            receiptDoc.save(folderPath + "/" + folderName + "/" + fileName);
+            receiptDoc.close();
         } catch (IOException e) {
             System.out.println("Something wrong : " + e.getMessage());
-            throw new RuntimeException();
+            throw new RuntimeException(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Can't write receipt : " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
