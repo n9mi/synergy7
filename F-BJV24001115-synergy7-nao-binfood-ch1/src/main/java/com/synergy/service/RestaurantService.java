@@ -110,7 +110,7 @@ public class RestaurantService {
                 "QTY"
         };
 
-        String[][] transactionData = new String[this.transactionRepository.count() + 2][4];
+        String[][] transactionData = new String[this.transactionRepository.count() + 3][4];
         int row = 0;
         for (Transaction transaction : this.transactionRepository.getAll()) {
             Menu menu = this.menuRepository.findById(transaction.menuId);
@@ -120,10 +120,12 @@ public class RestaurantService {
             transactionData[row][3] = String.valueOf(transaction.quantity);
             row += 1;
         }
-        transactionData[row][0] = "Y";
-        transactionData[row][1] = "Confirm";
-        transactionData[row + 1][0] = "N";
-        transactionData[row + 1][1] = "Back to menu";
+        transactionData[row][1] = "TOTAL";
+        transactionData[row][2] = String.format("Rp. %,d", this.transactionRepository.getTotalPrice());
+        transactionData[row + 1][0] = "Y";
+        transactionData[row + 1][1] = "Confirm";
+        transactionData[row + 2][0] = "N";
+        transactionData[row + 2][1] = "Back to menu";
 
         this.currTransactionTextTable = new TextTable(columnNames, transactionData);
     }
