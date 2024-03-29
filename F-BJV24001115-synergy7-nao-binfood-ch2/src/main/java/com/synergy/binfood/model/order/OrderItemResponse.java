@@ -10,7 +10,9 @@ import lombok.Setter;
 public class OrderItemResponse {
     private String menuCode;
     private String menuName;
+    private int menuPrice;
     private String variantCode;
     private String variantName;
     private int quantity;
+    private int totalPerItem;
 }

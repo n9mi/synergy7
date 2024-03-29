@@ -3,7 +3,7 @@ package com.synergy.binfood.view;
 import com.synergy.binfood.controller.RestaurantController;
 import com.synergy.binfood.model.order.CheckIsOrderItemExistsResponse;
 import com.synergy.binfood.model.order.OrderIdResponse;
-import dnl.utils.text.table.TextTable;
+import com.synergy.binfood.repository.Repository;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -22,23 +22,16 @@ public class RestaurantView {
     }
 
     public void askMenu() {
-        while(true) {
-            System.out.print("Choose menu => ");
-            Scanner sc = new Scanner(System.in);
-            String option = sc.nextLine();
+        System.out.print("Choose menu => ");
+        Scanner sc = new Scanner(System.in);
+        String option = sc.nextLine();
 
-            if (option.equals("X")) {
-                this.currentMenuCode = "X";
-                return;
-            }
-
-            try {
-                this.currentMenuCode = option;
-                return;
-            } catch (Exception e) {
-                System.out.print("ERROR -> ");
-            }
+        if (option.equals("X")) {
+            this.currentMenuCode = "X";
+            return;
         }
+
+        this.currentMenuCode = option;
     }
 
     public void askMenuVariant() {
@@ -56,9 +49,12 @@ public class RestaurantView {
 
                 if (this.restaurantController.checkMenuHasVariant(this.currentMenuCode, option)) {
                     this.currentVariantCode = option;
+                    return;
                 }
+
+                throw new InputMismatchException("Variant is not exists");
             } catch (Exception e) {
-                System.out.print("ERROR -> ");
+                System.out.println("Input error : " + e.getMessage());
             }
         }
     }
@@ -70,7 +66,7 @@ public class RestaurantView {
                 Scanner sc = new Scanner(System.in);
                 int qty = sc.nextInt();
 
-                if (qty < 0) {
+                if (qty < 1) {
                     throw new InputMismatchException("quantity can't be zero");
                 }
 
@@ -98,53 +94,63 @@ public class RestaurantView {
     }
 
     public void run() {
+        // Initialize order
+        OrderIdResponse orderIdResponse = this.restaurantController.createOrder();
+        this.currentOrderId = orderIdResponse.getOrderId();
+
+        label:
         while (true) {
             try {
-                // Initialize order
-                OrderIdResponse orderIdResponse = this.restaurantController.createOrder();
-                this.currentOrderId = orderIdResponse.getOrderId();
-
                 // Input main menu
                 this.restaurantController.getMenus().printTable();
                 this.askMenu();
-                if (this.currentMenuCode.equals("X")) {
-                    break;
-                }
-
-                // If menu
-                if (this.restaurantController.checkMenuHasVariants(this.currentMenuCode)) {
-                    this.askMenuVariant();
-
-                    CheckIsOrderItemExistsResponse checkIsOrderItemExistsResponse = this.restaurantController.checkIsOrderItemExists(this.currentOrderId,
-                            this.currentMenuCode, this.currentVariantCode);
-                    if (checkIsOrderItemExistsResponse.isOrderItemExists()) {
-                        // If order item already exists, display update or delete
-                        this.restaurantController.getOrderedItem(this.currentOrderId, this.currentMenuCode,
-                                this.currentVariantCode).printTable();
-                        String updateDeleteOption = this.getUpdateDeleteOption();
-                        if (updateDeleteOption.equals("E")) {
-                            // To edit, ask quantity to renew curQuantity
-                            this.askQuantityInput();
-                            this.restaurantController.updateOrderItem(this.currentOrderId, this.currentMenuCode,
-                                    this.currentVariantCode, this.currQuantity);
-                        } else if (updateDeleteOption.equals("D")) {
-                            // Delete quantity
-                            this.restaurantController.deleteOrderItem(this.currentOrderId, this.currentMenuCode,
-                                    this.currentVariantCode);
+                switch (this.currentMenuCode) {
+                    case "X":
+                        break label;
+                    case "O":
+                        this.restaurantController.getOrderedItems(this.currentOrderId).printTable();
+                        break;
+                    case "P":
+                        this.restaurantController.payOrder(this.currentOrderId);
+                        break label;
+                    default:
+                        // If menu has variant, has for its variant
+                        if (this.restaurantController.checkMenuHasVariants(this.currentMenuCode)) {
+                            this.askMenuVariant();
                         }
-                    } else {
-                        // If order don't exist, ask quantity and create order
-                        this.askQuantityInput();
-                        this.restaurantController.createOrderItem(this.currentOrderId, this.currentMenuCode,
-                                this.currentVariantCode, this.currQuantity);
-                    }
-                } else {
-                    //
-                    this.askQuantityInput();
+                        CheckIsOrderItemExistsResponse checkIsOrderItemExistsResponse = this.restaurantController.
+                                checkIsOrderItemExists(this.currentOrderId, this.currentMenuCode, this.currentVariantCode);
+                        if (checkIsOrderItemExistsResponse.isOrderItemExists()) {
+                            // If order item already exists, display update or delete
+                            this.restaurantController.getOrderedItem(this.currentOrderId, this.currentMenuCode,
+                                    this.currentVariantCode).printTable();
+                            String updateDeleteOption = this.getUpdateDeleteOption();
+                            if (updateDeleteOption.equals("E")) {
+                                // To edit, ask quantity to renew curQuantity
+                                this.askQuantityInput();
+                                this.restaurantController.updateOrderItem(this.currentOrderId, this.currentMenuCode,
+                                        this.currentVariantCode, this.currQuantity);
+                            } else if (updateDeleteOption.equals("D")) {
+                                // Delete quantity
+                                this.restaurantController.deleteOrderItem(this.currentOrderId, this.currentMenuCode,
+                                        this.currentVariantCode);
+                            }
+                        } else {
+                            // If order item not exists yet, only ask for quantity
+                            this.askQuantityInput();
+                            this.restaurantController.createOrderItem(this.currentOrderId, this.currentMenuCode,
+                                    this.currentVariantCode, this.currQuantity);
+                        }
+                        break;
                 }
             } catch (Exception e) {
-                System.out.print("ERROR -> ");
+                System.out.println("ERROR!");
             }
         }
+
+        this.currentOrderId = null;
+        this.currentMenuCode = null;
+        this.currentVariantCode = null;
+        this.currQuantity = 0;
     }
 }

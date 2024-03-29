@@ -6,6 +6,7 @@ import com.synergy.binfood.service.MenuService;
 import com.synergy.binfood.service.OrderService;
 import com.synergy.binfood.utils.exception.DuplicateItemError;
 import com.synergy.binfood.utils.exception.NotFoundError;
+import com.synergy.binfood.utils.exception.ReceiptWriterError;
 import com.synergy.binfood.utils.exception.ValidationError;
 import dnl.utils.text.table.TextTable;
 import lombok.AllArgsConstructor;
@@ -134,18 +135,29 @@ public class RestaurantController {
     public TextTable getOrderedItems(String orderId) throws Exception {
         try {
             OrderResponse orderResponse = this.orderService.find(new GetOrderRequest(orderId));
-            String[] columnNames = { "MENU CODE", "MENU NAME", "VARIANT CODE", "VARIANT NAME", "QUANTITY" };
-            String[][] orderItemsData = new String[orderResponse.getOrderItems().size()][5];
+            String[] columnNames = { "MENU CODE", "MENU NAME", "MENU PRICE",
+                    "VARIANT CODE", "VARIANT NAME", "QUANTITY", "TOTAL"};
+            String[][] orderItemsData = new String[orderResponse.getOrderItems().size() + 1][7];
 
             int row = 0;
             for (OrderItemResponse orderItemResponse: orderResponse.getOrderItems()) {
                 orderItemsData[row][0] = orderItemResponse.getMenuCode();
                 orderItemsData[row][1] = orderItemResponse.getMenuName();
-                orderItemsData[row][2] = orderItemResponse.getVariantCode();
-                orderItemsData[row][3] = orderItemResponse.getVariantName();
-                orderItemsData[row][4] = String.format("%d pcs", orderItemResponse.getQuantity());
+                orderItemsData[row][2] = String.format("Rp. %,d", orderItemResponse.getMenuPrice());
+                orderItemsData[row][3] = orderItemResponse.getVariantCode();
+                orderItemsData[row][4] = orderItemResponse.getVariantName();
+                orderItemsData[row][5] = String.format("%d pcs", orderItemResponse.getQuantity());
+                orderItemsData[row][6] = String.format("Rp. %,d", orderItemResponse.getTotalPerItem());
                 row++;
             }
+
+            orderItemsData[row][0] = "";
+            orderItemsData[row][1] = "";
+            orderItemsData[row][2] = "";
+            orderItemsData[row][3] = "";
+            orderItemsData[row][4] = "";
+            orderItemsData[row][5] = "TOTAL";
+            orderItemsData[row][6] = String.format("Rp. %,d", orderResponse.getTotalPrice());
 
             return new TextTable(columnNames, orderItemsData);
         } catch (ValidationError validationError) {
@@ -272,6 +284,10 @@ public class RestaurantController {
             throw new Exception(errMsg);
         } catch (NotFoundError notFoundError) {
             String errMsg = "Not found error : " + notFoundError.getMessage();
+            System.out.println(errMsg);
+            throw new Exception(errMsg);
+        } catch (ReceiptWriterError receiptWriterError) {
+            String errMsg = "Failed to write receipt : " + receiptWriterError.getMessage();
             System.out.println(errMsg);
             throw new Exception(errMsg);
         } catch (Exception exception) {

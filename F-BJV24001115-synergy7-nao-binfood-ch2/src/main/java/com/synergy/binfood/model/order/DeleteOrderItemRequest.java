@@ -15,6 +15,5 @@ public class DeleteOrderItemRequest {
     @NotBlank(message = "menu code cannot be blank")
     private String menuCode;
 
-    @NotBlank(message = "variant code cannot be blank")
     private String variantCode;
 }

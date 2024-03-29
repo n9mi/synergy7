@@ -10,8 +10,10 @@ import com.synergy.binfood.repository.OrderItemRepository;
 import com.synergy.binfood.repository.OrderRepository;
 import com.synergy.binfood.repository.VariantRepository;
 import com.synergy.binfood.utils.ExceptionUtil;
+import com.synergy.binfood.utils.ReceiptWriterUtil;
 import com.synergy.binfood.utils.exception.DuplicateItemError;
 import com.synergy.binfood.utils.exception.NotFoundError;
+import com.synergy.binfood.utils.exception.ReceiptWriterError;
 import com.synergy.binfood.utils.exception.ValidationError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
@@ -54,9 +56,16 @@ public class OrderServiceImpl extends Service implements OrderService {
         int totalPrice = 0;
         for (OrderItem orderItem: orderItems) {
             Menu menu = this.menuRepository.findByCode(orderItem.getMenuCode());
-            Variant variant = this.variantRepository.findByCode(orderItem.getVariantCode());
-            orderItemResponses.add(new OrderItemResponse(menu.getCode(), menu.getName(), variant.getCode(),
-                    variant.getName(), orderItem.getQuantity()));
+            int totalPerItem = menu.getPrice() * orderItem.getQuantity();
+            if (this.menuRepository.isMenuHasAnyVariant(orderItem.getMenuCode())) {
+                Variant variant = this.variantRepository.findByCode(orderItem.getVariantCode());
+                orderItemResponses.add(new OrderItemResponse(menu.getCode(), menu.getName(), menu.getPrice(),
+                        variant.getCode(), variant.getName(), orderItem.getQuantity(), totalPerItem));
+            } else {
+                orderItemResponses.add(new OrderItemResponse(menu.getCode(), menu.getName(), menu.getPrice(),
+                        "", "", orderItem.getQuantity(), totalPerItem));
+            }
+
             totalPrice += menu.getPrice() * orderItem.getQuantity();
         }
 
@@ -69,7 +78,7 @@ public class OrderServiceImpl extends Service implements OrderService {
         return new OrderIdResponse(order.getId());
     }
 
-    public void pay(GetOrderRequest request) throws ValidationError, NotFoundError {
+    public void pay(GetOrderRequest request) throws ValidationError, NotFoundError, ReceiptWriterError {
         Set<ConstraintViolation<GetOrderRequest>> violations = Service.validator.validate(request);
         if (!violations.isEmpty()) {
             throw new ValidationError(ExceptionUtil.getViolationsMessage(violations));
@@ -81,6 +90,15 @@ public class OrderServiceImpl extends Service implements OrderService {
 
         Order order = this.orderRepository.find(request.getOrderId());
         this.orderRepository.pay(order);
+
+        OrderResponse orderResponse = this.find(new GetOrderRequest(order.getId()));
+        orderResponse.setPayAt(order.getPayAt());
+
+        try {
+            ReceiptWriterUtil.writeToPDF(orderResponse);
+        } catch (Exception e) {
+            throw new ReceiptWriterError(e.getMessage());
+        }
     }
 
     private NotFoundError checkOrderItemValid(OrderItemRequest request)  {
@@ -123,9 +141,15 @@ public class OrderServiceImpl extends Service implements OrderService {
 
         OrderItem orderItem = this.orderItemRepository.find(request.getOrderId(), request.getMenuCode(), request.getVariantCode());
         Menu menu = this.menuRepository.findByCode(orderItem.getMenuCode());
-        Variant variant = this.variantRepository.findByCode(orderItem.getVariantCode());
-        return new OrderItemResponse(menu.getCode(), menu.getName(), variant.getCode(),
-                variant.getName(), orderItem.getQuantity());
+        int totalPerItem = menu.getPrice() * orderItem.getQuantity();
+        if (this.menuRepository.isMenuHasAnyVariant(menu.getCode())) {
+            Variant variant = this.variantRepository.findByCode(orderItem.getVariantCode());
+            return new OrderItemResponse(menu.getCode(), menu.getName(), menu.getPrice(), variant.getCode(),
+                    variant.getName(), orderItem.getQuantity(), totalPerItem);
+        } else {
+            return new OrderItemResponse(menu.getCode(), menu.getName(), menu.getPrice(), "",
+                    "", orderItem.getQuantity(), totalPerItem);
+        }
     }
 
     public void createOrderItem(OrderItemRequest request) throws ValidationError, NotFoundError, DuplicateItemError {

@@ -70,7 +70,7 @@ public class MenuServiceImpl extends Service implements MenuService {
             throw new ValidationError(ExceptionUtil.getViolationsMessage(violations));
         }
 
-        if (this.menuRepository.isExistsByCode(request.getMenuCode())) {
+        if (!this.menuRepository.isExistsByCode(request.getMenuCode())) {
             throw new NotFoundError("menu is not exists");
         }
 
@@ -83,13 +83,13 @@ public class MenuServiceImpl extends Service implements MenuService {
             throw new ValidationError(ExceptionUtil.getViolationsMessage(violations));
         }
 
-        if (this.menuRepository.isExistsByCode(request.getMenuCode())) {
+        if (!this.menuRepository.isExistsByCode(request.getMenuCode())) {
             throw new NotFoundError("menu is not exists");
         }
 
-        if (this.menuRepository.isMenuHasAnyVariant(request.getMenuCode()) && this.variantRepository.
+        if (!this.menuRepository.isMenuHasAnyVariant(request.getMenuCode()) && this.variantRepository.
                 isExistsByCode(request.getVariantCode())) {
-            throw new NotFoundError("variant is not exists");
+            throw new NotFoundError("variant is not exists in this menu");
         }
 
         return this.menuRepository.isVariantExistsOnMenu(request.getMenuCode(),

@@ -38,7 +38,7 @@ public class OrderRepository extends Repository {
     }
 
     public boolean isOrderItemExistsOnOrder(String orderId, String menuCode, String variantCode) {
-        if (variantCode.isBlank()) {
+        if (variantCode != null) {
             return Repository.orderItems.containsKey(String.format(Repository.composite3KeyFormat,
                     orderId, menuCode, variantCode));
         } else {
@@ -48,13 +48,12 @@ public class OrderRepository extends Repository {
     }
 
     public List<OrderItem> findOrderItemsFromOrder(Order order) {
-        List<OrderItem> orderItems = new ArrayList<>();
+        List<OrderItem> orderItemsResult = new ArrayList<>();
         Repository.orderItems.forEach((K, V) -> {
             if (K.startsWith(order.getId())) {
-                orderItems.add(V);
+                orderItemsResult.add(V);
             }
         });
-
-        return orderItems;
+        return orderItemsResult;
     }
 }

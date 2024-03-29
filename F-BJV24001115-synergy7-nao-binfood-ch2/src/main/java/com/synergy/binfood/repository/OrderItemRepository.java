@@ -8,7 +8,7 @@ public class OrderItemRepository extends Repository {
     }
 
     public boolean isExists(String orderId, String menuCode, String variantCode) {
-        if (!variantCode.isBlank()) {
+        if (variantCode != null) {
             return Repository.orderItems.containsKey(String.format(Repository.composite3KeyFormat, orderId, menuCode, variantCode));
         } else {
             return Repository.orderItems.containsKey(String.format(Repository.composite2KeyFormat, orderId, menuCode));
@@ -16,7 +16,7 @@ public class OrderItemRepository extends Repository {
     }
 
     public OrderItem find(String orderId, String menuCode, String variantCode) {
-        if (!variantCode.isBlank()) {
+        if (variantCode != null) {
             return Repository.orderItems.get(String.format(Repository.composite3KeyFormat, orderId, menuCode, variantCode));
         } else {
             return Repository.orderItems.get(String.format(Repository.composite2KeyFormat, orderId, menuCode));
@@ -24,7 +24,7 @@ public class OrderItemRepository extends Repository {
     }
 
     public void create(OrderItem orderItem) {
-        if (!orderItem.getVariantCode().isBlank()) {
+        if (orderItem.getVariantCode() != null) {
             Repository.orderItems.put(String.format(Repository.composite3KeyFormat, orderItem.getOrderId(),
                     orderItem.getMenuCode(), orderItem.getVariantCode()), orderItem);
         } else {
@@ -34,7 +34,7 @@ public class OrderItemRepository extends Repository {
     }
 
     public void update(OrderItem orderItem) {
-        if (!orderItem.getVariantCode().isBlank()) {
+        if (orderItem.getVariantCode() != null) {
             Repository.orderItems.put(String.format(Repository.composite3KeyFormat, orderItem.getOrderId(),
                     orderItem.getMenuCode(), orderItem.getVariantCode()), orderItem);
         } else {
@@ -44,7 +44,7 @@ public class OrderItemRepository extends Repository {
     }
 
     public void delete(OrderItem orderItem) {
-        if (orderItem.getVariantCode().isBlank()) {
+        if (orderItem.getVariantCode() != null) {
             Repository.orderItems.remove(String.format(Repository.composite3KeyFormat, orderItem.getOrderId(),
                     orderItem.getMenuCode(), orderItem.getVariantCode()));
         } else {
