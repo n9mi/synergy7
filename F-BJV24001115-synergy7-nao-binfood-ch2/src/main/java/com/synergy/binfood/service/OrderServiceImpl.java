@@ -16,13 +16,12 @@ import com.synergy.binfood.utils.exception.NotFoundError;
 import com.synergy.binfood.utils.exception.ReceiptWriterError;
 import com.synergy.binfood.utils.exception.ValidationError;
 import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class OrderServiceImpl extends Service implements OrderService {
+public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final VariantRepository variantRepository;

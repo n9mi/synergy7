@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MenuServiceImpl extends Service implements MenuService {
+public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final VariantRepository variantRepository;
 

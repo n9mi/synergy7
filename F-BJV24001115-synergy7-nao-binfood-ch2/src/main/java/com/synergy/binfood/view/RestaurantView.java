@@ -3,7 +3,6 @@ package com.synergy.binfood.view;
 import com.synergy.binfood.controller.RestaurantController;
 import com.synergy.binfood.model.order.CheckIsOrderItemExistsResponse;
 import com.synergy.binfood.model.order.OrderIdResponse;
-import com.synergy.binfood.repository.Repository;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

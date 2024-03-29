@@ -80,9 +80,8 @@ public class SeederUtil {
                 MenuWithVariants menuWithVariants = this.getMenuVariants(line);
                 Menu menu = menuWithVariants.getMenu();
                 this.menusResults.put(menu.getCode(), menu);
-                menuWithVariants.getMenuVariants().forEach(mv -> {
-                    this.menuVariantsResult.put(String.format("%s_%s", mv.getMenuCode(), mv.getVariantCode()), mv);
-                });
+                menuWithVariants.getMenuVariants().forEach(mv ->
+                    this.menuVariantsResult.put(String.format("%s_%s", mv.getMenuCode(), mv.getVariantCode()), mv));
             }
         } catch (FileNotFoundException e) {
             throw new SeederError("file not found : " + e.getMessage());

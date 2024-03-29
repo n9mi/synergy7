@@ -8,21 +8,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class OrderRepository extends Repository {
+public class OrderRepository {
     public OrderRepository() {
         super();
     }
 
     public boolean isExists(String id) {
-        return this.orders.containsKey(id);
+        return Repository.orders.containsKey(id);
     }
 
     public List<Order> findAll() {
-        return new ArrayList<>(this.orders.values());
+        return new ArrayList<>(Repository.orders.values());
     }
 
     public Order find(String id) {
-        return this.orders.get(id);
+        return Repository.orders.get(id);
     }
 
     public Order create(Order order) {
