@@ -2,7 +2,6 @@ package com.synergy.binfood.utils;
 
 import com.synergy.binfood.model.order.OrderItemResponse;
 import com.synergy.binfood.model.order.OrderResponse;
-import com.synergy.binfood.utils.exception.ReceiptWriterError;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -14,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReceiptWriterUtil {
-    public static void writeToPDF(OrderResponse orderDetails) throws IOException, Exception {
+    public static void writeToPDF(OrderResponse orderDetails) throws Exception {
         String folderPath = System.getProperty("user.dir") + "/receipts";
 
         try {

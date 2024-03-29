@@ -2,7 +2,7 @@ package com.synergy.binfood.repository;
 
 import com.synergy.binfood.entity.OrderItem;
 
-public class OrderItemRepository extends Repository {
+public class OrderItemRepository {
     public OrderItemRepository() {
         super();
     }

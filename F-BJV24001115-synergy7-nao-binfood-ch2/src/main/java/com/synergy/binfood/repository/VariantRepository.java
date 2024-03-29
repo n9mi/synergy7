@@ -4,7 +4,7 @@ import com.synergy.binfood.entity.Variant;
 
 import java.util.UUID;
 
-public class VariantRepository extends Repository {
+public class VariantRepository {
     public VariantRepository() {
         super();
     }
