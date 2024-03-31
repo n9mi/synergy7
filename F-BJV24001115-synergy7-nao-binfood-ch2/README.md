@@ -1,3 +1,6 @@
+## Entities
+![image](https://github.com/n9mi/synergy7/assets/113373725/a0c5d55b-8cb8-4438-88aa-a26ea6c302cf)
+
 ## Features
 1. Choose menu <br>
 ![image](https://github.com/n9mi/synergy7/assets/113373725/2a40e899-0d2e-4c7f-bf56-13fd46b3517c)
