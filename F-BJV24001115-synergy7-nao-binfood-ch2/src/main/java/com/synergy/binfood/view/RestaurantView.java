@@ -116,9 +116,9 @@ public class RestaurantView {
                         // If menu has variant, ask for its variant
                         if (this.restaurantController.checkMenuHasVariants(this.currentMenuCode)) {
                             this.askMenuVariant();
-                        }
-                        if (this.currentVariantCode.equals("X")) {
-                            break;
+                            if (this.currentVariantCode.equals("X")) {
+                                continue;
+                            }
                         }
                         CheckIsOrderItemExistsResponse checkIsOrderItemExistsResponse = this.restaurantController.
                                 checkIsOrderItemExists(this.currentOrderId, this.currentMenuCode, this.currentVariantCode);
@@ -145,7 +145,7 @@ public class RestaurantView {
                         }
                 }
             } catch (Exception e) {
-                System.out.println("ERROR!");
+                System.out.println("ERROR! " + e.getMessage());
             }
         }
 
