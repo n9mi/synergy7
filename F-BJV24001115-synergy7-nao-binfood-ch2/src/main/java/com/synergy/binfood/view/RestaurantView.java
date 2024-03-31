@@ -110,7 +110,9 @@ public class RestaurantView {
                         this.restaurantController.getOrderedItems(this.currentOrderId).printTable();
                         break;
                     case "P":
+                        System.out.println("Generating receipt...");
                         this.restaurantController.payOrder(this.currentOrderId);
+                        System.out.println("PAYMENT SUCCESS!");
                         break;
                     default:
                         // If menu has variant, ask for its variant
