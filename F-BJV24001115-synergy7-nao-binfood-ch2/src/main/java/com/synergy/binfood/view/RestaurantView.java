@@ -111,11 +111,14 @@ public class RestaurantView {
                         break;
                     case "P":
                         this.restaurantController.payOrder(this.currentOrderId);
-                        break label;
+                        break;
                     default:
-                        // If menu has variant, has for its variant
+                        // If menu has variant, ask for its variant
                         if (this.restaurantController.checkMenuHasVariants(this.currentMenuCode)) {
                             this.askMenuVariant();
+                        }
+                        if (this.currentVariantCode.equals("X")) {
+                            break;
                         }
                         CheckIsOrderItemExistsResponse checkIsOrderItemExistsResponse = this.restaurantController.
                                 checkIsOrderItemExists(this.currentOrderId, this.currentMenuCode, this.currentVariantCode);
@@ -140,7 +143,6 @@ public class RestaurantView {
                             this.restaurantController.createOrderItem(this.currentOrderId, this.currentMenuCode,
                                     this.currentVariantCode, this.currQuantity);
                         }
-                        break;
                 }
             } catch (Exception e) {
                 System.out.println("ERROR!");
