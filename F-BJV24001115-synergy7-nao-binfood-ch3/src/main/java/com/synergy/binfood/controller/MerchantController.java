@@ -3,6 +3,7 @@ package com.synergy.binfood.controller;
 import com.synergy.binfood.model.auth.AuthData;
 import com.synergy.binfood.model.merchant.MerchantResponse;
 import com.synergy.binfood.model.merchant.MerchantWithProductsResponse;
+import com.synergy.binfood.model.product.ProductResponse;
 import com.synergy.binfood.service.MerchantService;
 import com.synergy.binfood.util.exception.NotFoundException;
 import com.synergy.binfood.util.exception.UnauthorizedException;
@@ -24,5 +25,10 @@ public class MerchantController {
 
     public AuthData setCurrentMerchant(AuthData authData, int merchantId) throws UnauthorizedException, NotFoundException {
         return this.merchantService.setCurrentMerchant(authData, merchantId);
+    }
+
+    public ProductResponse getProductInMerchant(AuthData authData, int productId) throws UnauthorizedException,
+            NotFoundException {
+        return this.merchantService.findProductInMerchant(authData, productId);
     }
 }

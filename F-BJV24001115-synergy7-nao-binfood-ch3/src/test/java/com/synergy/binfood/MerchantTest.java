@@ -4,6 +4,7 @@ import com.synergy.binfood.controller.MerchantController;
 import com.synergy.binfood.model.auth.AuthData;
 import com.synergy.binfood.model.merchant.MerchantWithProductsResponse;
 import com.synergy.binfood.repository.MerchantRepository;
+import com.synergy.binfood.repository.ProductRepository;
 import com.synergy.binfood.repository.UserRepository;
 import com.synergy.binfood.service.MerchantService;
 import com.synergy.binfood.service.MerchantServiceImpl;
@@ -20,7 +21,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class MerchantTest extends AppTest {
     private final MerchantRepository merchantRepository = new MerchantRepository();
     private final UserRepository userRepository = new UserRepository();
-    private final MerchantService merchantService = new MerchantServiceImpl(merchantRepository, userRepository);
+    private final ProductRepository productRepository = new ProductRepository();
+    private final MerchantService merchantService = new MerchantServiceImpl(merchantRepository, productRepository,
+            userRepository);
     private final MerchantController merchantController = new MerchantController(merchantService);
 
     // VALID or INVALID auth data depends on user seeder

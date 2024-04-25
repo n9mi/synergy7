@@ -12,6 +12,10 @@ import com.synergy.binfood.service.AuthService;
 public class AuthController {
     private final AuthService authService;
 
+    public AuthData getUserInfoByUsername(String username) {
+        return this.authService.getUserInfoByUsername(username);
+    }
+
     public AuthData login(String username, String password) throws ValidationException, UnauthorizedException {
         return this.authService.login(new LoginRequest(username, password));
     }

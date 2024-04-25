@@ -5,6 +5,8 @@ import com.synergy.binfood.controller.MerchantController;
 import com.synergy.binfood.controller.OrderController;
 import com.synergy.binfood.repository.*;
 import com.synergy.binfood.service.*;
+import jakarta.validation.Validation;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 public class Bootstrap {
     private final UserRepository userRepository;
@@ -16,7 +18,6 @@ public class Bootstrap {
     private final AuthService authService;
     private final MerchantService merchantService;
     private final OrderService orderService;
-    private final OrderDetailService orderDetailService;
 
     public final AuthController authController;
     public final MerchantController merchantController;
@@ -42,15 +43,23 @@ public class Bootstrap {
         this.productRepository = new ProductRepository();
 
         // Setup service
+        Service.setValidator(Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory()
+                .getValidator());
+
         this.authService = new AuthServiceImpl(userRepository);
-        this.merchantService = new MerchantServiceImpl(merchantRepository, userRepository);
-        this.orderService = new OrderServiceImpl(orderRepository, userRepository, merchantRepository);
-        this.orderDetailService = new OrderDetailServiceImpl(
-                orderDetailRepository, orderRepository, userRepository, merchantRepository, productRepository);
+        this.merchantService = new MerchantServiceImpl(merchantRepository, productRepository, userRepository);
+        this.orderService = new OrderServiceImpl(orderRepository,
+                orderDetailRepository,
+                userRepository,
+                merchantRepository,
+                productRepository);
 
         // Setup controller
         this.authController = new AuthController(authService);
         this.merchantController = new MerchantController(merchantService);
-        this.orderController = new OrderController(orderService, orderDetailService);
+        this.orderController = new OrderController(orderService);
     }
 }

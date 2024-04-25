@@ -16,6 +16,12 @@ import java.util.Set;
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
 
+    public AuthData getUserInfoByUsername(String username) {
+        User user = this.userRepository.findByUserName(username);
+
+        return new AuthData(user.getId(), user.getUsername());
+    }
+
     public AuthData login(LoginRequest request) throws ValidationException, UnauthorizedException {
         Set<ConstraintViolation<LoginRequest>> violations = Service.validator.validate(request);
         if (!violations.isEmpty()) {

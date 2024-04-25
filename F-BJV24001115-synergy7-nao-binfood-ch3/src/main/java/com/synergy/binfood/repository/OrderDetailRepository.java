@@ -15,8 +15,8 @@ public class OrderDetailRepository {
     }
 
     public boolean isExistsByOrderAndProductId(int orderId, int productId) {
-        return Repository.orderDetails.values().stream().
-                anyMatch(orderDetail -> (orderDetail.getOrderId() == orderId) &&
+        return Repository.orderDetails.values().stream()
+                .anyMatch(orderDetail -> (orderDetail.getOrderId() == orderId) &&
                         orderDetail.getProductId() == productId);
     }
 
@@ -30,10 +30,9 @@ public class OrderDetailRepository {
     public OrderDetail create(OrderDetail orderDetail) {
         int currOrderDetailSize = Repository.orderDetails.size();
         int newOrderDetailIndex = currOrderDetailSize + 1;
-
         orderDetail.setId(newOrderDetailIndex);
-        Repository.orderDetails.put(orderDetail.getId(), orderDetail);
 
+        Repository.orderDetails.put(orderDetail.getId(), orderDetail);
         return orderDetail;
     }
 

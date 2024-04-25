@@ -6,5 +6,6 @@ import com.synergy.binfood.util.exception.UnauthorizedException;
 import com.synergy.binfood.util.exception.ValidationException;
 
 public interface AuthService {
+    public AuthData getUserInfoByUsername(String username);
     public AuthData login(LoginRequest request) throws ValidationException, UnauthorizedException;
 }

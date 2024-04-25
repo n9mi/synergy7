@@ -3,21 +3,28 @@ package com.synergy.binfood.service;
 import com.synergy.binfood.entity.Merchant;
 import com.synergy.binfood.entity.Product;
 import com.synergy.binfood.model.auth.AuthData;
+import com.synergy.binfood.model.merchant.GetMerchantProductRequest;
 import com.synergy.binfood.model.merchant.MerchantResponse;
 import com.synergy.binfood.model.merchant.MerchantWithProductsResponse;
 import com.synergy.binfood.model.product.ProductResponse;
 import com.synergy.binfood.repository.MerchantRepository;
+import com.synergy.binfood.repository.ProductRepository;
 import com.synergy.binfood.repository.UserRepository;
+import com.synergy.binfood.util.exception.ExceptionUtil;
 import com.synergy.binfood.util.exception.NotFoundException;
 import com.synergy.binfood.util.exception.UnauthorizedException;
+import com.synergy.binfood.util.exception.ValidationException;
+import jakarta.validation.ConstraintViolation;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class MerchantServiceImpl implements MerchantService {
     private final MerchantRepository merchantRepository;
+    private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
     public List<MerchantResponse> findOpened() {
@@ -61,5 +68,19 @@ public class MerchantServiceImpl implements MerchantService {
 
         authData.setCurrMerchantId(merchantId);
         return authData;
+    }
+
+    public ProductResponse findProductInMerchant(AuthData authData, int productId) throws UnauthorizedException,
+            NotFoundException {
+        if (!this.userRepository.isUserExistByIdAndUsername(authData.getUserId(), authData.getUserName())) {
+            throw new UnauthorizedException("invalid auth credentials");
+        }
+
+        if (!this.merchantRepository.isProductExistsOnMerchant(authData.getCurrMerchantId(), productId)) {
+            throw new NotFoundException("product doesn't exists on this merchant");
+        }
+
+        Product product = productRepository.findById(productId);
+        return new ProductResponse(product.getId(), product.getProductName(), product.getPrice());
     }
 }

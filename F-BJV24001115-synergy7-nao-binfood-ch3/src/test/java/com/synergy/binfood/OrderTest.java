@@ -2,9 +2,8 @@ package com.synergy.binfood;
 
 import com.synergy.binfood.entity.OrderDetail;
 import com.synergy.binfood.entity.Product;
+import com.synergy.binfood.model.order.OrderDetailResponse;
 import com.synergy.binfood.repository.*;
-import com.synergy.binfood.service.OrderDetailService;
-import com.synergy.binfood.service.OrderDetailServiceImpl;
 import com.synergy.binfood.service.OrderService;
 import com.synergy.binfood.service.OrderServiceImpl;
 import com.synergy.binfood.controller.OrderController;
@@ -33,11 +32,13 @@ class OrderTest extends AppTest {
     private final OrderDetailRepository orderDetailRepository = new OrderDetailRepository();
     private final ProductRepository productRepository = new ProductRepository();
 
-    private final OrderService orderService = new OrderServiceImpl(orderRepository, userRepository, merchantRepository);
-    private final OrderDetailService orderDetailService = new OrderDetailServiceImpl(
-            orderDetailRepository, orderRepository, userRepository, merchantRepository, productRepository);
+    private final OrderService orderService = new OrderServiceImpl(orderRepository,
+            orderDetailRepository,
+            userRepository,
+            merchantRepository,
+            productRepository);
 
-    private final OrderController orderController = new OrderController(orderService, orderDetailService);
+    private final OrderController orderController = new OrderController(orderService);
 
     // VALID or INVALID auth data depends on user seeder
     // VALID means user exists in seeder
@@ -48,8 +49,23 @@ class OrderTest extends AppTest {
     @Test
     @Order(1)
     void createOrderSuccess() {
-        assertDoesNotThrow(() -> this.VALID_authData = this.orderController.create(
+        assertDoesNotThrow(() -> this.VALID_authData = this.orderController.createOrder(
                 VALID_authData, "Jl. Jalan-jalan"));
+    }
+
+    @DisplayName("ORDER TEST - GET ALL - SUCCESS")
+    @Test
+    @Order(2)
+    void getAllOrdersByUserIdTestSuccess() {
+        assertDoesNotThrow(() -> this.orderController.getUserOrders(this.VALID_authData));
+    }
+
+    @DisplayName("ORDER TEST - GET BY ID - SUCCESS")
+    @Test
+    @Order(2)
+    void getOrderTestSuccess() {
+        assertDoesNotThrow(() -> this.orderController.getOrder(this.VALID_authData,
+                this.VALID_authData.getCurrOrderId()));
     }
 
     private List<AuthData> getInvalidAuthData() {
@@ -61,21 +77,39 @@ class OrderTest extends AppTest {
         );
     }
 
+    @DisplayName("ORDER TEST - GET ALL - FAILED -> UNAUTHORIZED")
+    @ParameterizedTest()
+    @MethodSource({"getInvalidAuthData"})
+    @Order(2)
+    void getAllOrdersByUserIdTestFailed(AuthData authData) {
+        assertThrows(UnauthorizedException.class,
+                () -> this.orderController.getUserOrders(authData));
+    }
+
+    @DisplayName("ORDER TEST - GET BY ID - FAILED -> UNAUTHORIZED")
+    @ParameterizedTest()
+    @MethodSource({"getInvalidAuthData"})
+    @Order(2)
+    void getOrderTestFailed(AuthData authData) {
+        assertThrows(UnauthorizedException.class, () -> this.orderController.getOrder(authData,
+                this.VALID_authData.getCurrOrderId()));
+    }
+
     @DisplayName("ORDER TEST - CREATE - FAILED -> UNAUTHORIZED")
     @ParameterizedTest()
     @MethodSource({"getInvalidAuthData"})
     void createOrderFailedUnauthorized(AuthData invalidAuthData) {
         assertThrows(UnauthorizedException.class, () ->
-                this.orderController.create(invalidAuthData, "Jl. Jalan-jalan"));
+                this.orderController.createOrder(invalidAuthData, "Jl. Jalan-jalan"));
     }
 
     @DisplayName("ORDER TEST - CREATE - FAILED -> VALIDATION ERROR")
     @Test
     void createOrderFailedValidation() {
         assertThrows(ValidationException.class, () ->
-                this.orderController.create(this.VALID_authData, ""));
+                this.orderController.createOrder(this.VALID_authData, ""));
         assertThrows(ValidationException.class, () ->
-                this.orderController.create(this.VALID_authData, null));
+                this.orderController.createOrder(this.VALID_authData, null));
     }
 
     private List<AuthData> getInvalidAuthMerchant() {
@@ -92,7 +126,7 @@ class OrderTest extends AppTest {
     void createOrderFailedMerchantNotFound(AuthData authData) {
         try {
             assertThrows(NotFoundException.class, () ->
-                    this.orderController.create(authData, "Jl. Suka Jalan"));
+                    this.orderController.createOrder(authData, "Jl. Suka Jalan"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -113,12 +147,18 @@ class OrderTest extends AppTest {
     @DisplayName("ORDER TEST - ADD ORDER DETAIL - SUCCESS")
     @Test
     @Order(3)
-    void addOrderDetailSuccess() {
+    void addAndGetOrderDetailSuccess() {
         List<Product> merchantProduct = merchantRepository.findProducts(this.VALID_authData.getCurrMerchantId());
         Product randomProduct = merchantProduct.get(Randomizer.generate(0, merchantProduct.size() - 1));
+        int quantity = 10;
 
-        assertDoesNotThrow(() -> this.orderController.addOrderDetail(this.VALID_authData,
-                randomProduct.getId(), 10));
+        assertDoesNotThrow(() ->
+                this.orderController.addOrderDetail(this.VALID_authData, randomProduct.getId(), quantity));
+        assertDoesNotThrow(() -> {
+            OrderDetailResponse response = this.orderController.getOrderDetail(this.VALID_authData,
+                    randomProduct.getId());
+            assertEquals(quantity * randomProduct.getPrice(), response.getTotalPrice());
+        });
     }
 
     private List<AuthData> getInvalidAuthMerchantWithValidOrder() {
@@ -146,11 +186,11 @@ class OrderTest extends AppTest {
         );
     }
 
-    @DisplayName("ORDER TEST - ADD ORDER DETAIL - FAILED -> UNAUTHORIZED ORDER")
+    @DisplayName("ORDER DETAIL TEST - ADD ORDER DETAIL - FAILED -> UNAUTHORIZED ORDER")
     @ParameterizedTest()
     @MethodSource({ "getInvalidAuthOrder" })
     void addOrderDetailUnauthorizedOrder(AuthData authData) {
-        assertThrows(UnauthorizedException.class, () -> this.orderController.addOrderDetail(authData,
+        assertThrows(NotFoundException.class, () -> this.orderController.addOrderDetail(authData,
                 1, 10));
     }
 
@@ -175,7 +215,7 @@ class OrderTest extends AppTest {
         assertTrue(this.orderController.isOrderDetailExists(this.VALID_authData, existingOrderDetail.getProductId()));
     }
 
-    @DisplayName("ORDER TEST - UPDATE ORDER - SUCCESS")
+    @DisplayName("ORDER DETAIL TEST - UPDATE ORDER - SUCCESS")
     @ParameterizedTest
     @MethodSource({ "getExistingOrderDetail" })
     @Order(6)
