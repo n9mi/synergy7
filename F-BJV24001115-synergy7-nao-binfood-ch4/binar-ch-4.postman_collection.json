@@ -1,0 +1,796 @@
+{
+	"info": {
+		"_postman_id": "fca7f346-6055-470d-806f-b68f9c3c6d25",
+		"name": "binar-ch-4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32867185"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users?pageSize=100",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"caca@example.com\",\n    \"username\": \"caca\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"caca\",\n    \"email\": \"caca@example.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users/2a4565a0-5b54-4115-9547-ce9053af213c",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2a4565a0-5b54-4115-9547-ce9053af213c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users/2a4565a0-5b54-4115-9547-ce9053af213c",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2a4565a0-5b54-4115-9547-ce9053af213c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate dummy user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users/generate/dummy",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"generate",
+						"dummy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clean dummy users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users/clean/dummy",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"clean",
+						"dummy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authorize user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/users/210a15c9-17f0-463f-9d70-8bbe045ef1bf/authorize",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"210a15c9-17f0-463f-9d70-8bbe045ef1bf",
+						"authorize"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destinationAddress\": \"Surakarta\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get orders in current users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders?pageSize=100",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get order details by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders/de321eff-fa0e-4734-a8cd-feb686bdeecd",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"de321eff-fa0e-4734-a8cd-feb686bdeecd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order Details",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"50ef4d5c-282f-4828-942b-267540a6b583\",\n    \"quantity\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders/9988753e-dd43-4833-a136-9a2e99bced96",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"9988753e-dd43-4833-a136-9a2e99bced96"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Order Detail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"3bef087e-f06c-47e2-afe2-baaddb5c071d\",\n    \"quantity\": 200\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders/de321eff-fa0e-4734-a8cd-feb686bdeecd/details/3456fef8-29eb-4f57-a37a-54b3aa531bd7",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"de321eff-fa0e-4734-a8cd-feb686bdeecd",
+						"details",
+						"3456fef8-29eb-4f57-a37a-54b3aa531bd7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order Detail",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders/f65fa996-dc3d-4ee0-8bfc-50cd44c8e561/details/3456fef8-29eb-4f57-a37a-54b3aa531bd7",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"f65fa996-dc3d-4ee0-8bfc-50cd44c8e561",
+						"details",
+						"3456fef8-29eb-4f57-a37a-54b3aa531bd7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/orders/aab8370c-38fa-4904-b753-2f5c99a79bbd/checkout",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"orders",
+						"aab8370c-38fa-4904-b753-2f5c99a79bbd",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Merchants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchants?pageSize=100",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchants"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create merchant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Merchantt\",\n    \"location\": \"Surakarta\",\n    \"open\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchants",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update merchant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Merchant X\",\n    \"location\": \"Surakarta\",\n    \"open\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchants/c360b724-69f9-4e19-a3d7-69b8cb1bfafe",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchants",
+						"c360b724-69f9-4e19-a3d7-69b8cb1bfafe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete merchant",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchants/17a4483d-1464-421d-93ef-a626521b0cce",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchants",
+						"17a4483d-1464-421d-93ef-a626521b0cce"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/products",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Product C\",\n    \"price\": 1,\n    \"merchantId\": \"c737c5e7-cc3a-47b1-a967-ae2e6f361c1d\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/products",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Product C\",\n    \"price\": 1,\n    \"merchantId\": \"9c1fee66-9606-4844-9d46-2ef7060077c4\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/products/560fa050-e047-4489-89c0-0a8ac8ea1929",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"560fa050-e047-4489-89c0-0a8ac8ea1929"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/products/bd3cf0d9-4738-4219-ac60-75635769099e",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"products",
+						"bd3cf0d9-4738-4219-ac60-75635769099e"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add({",
+					"    key: 'Content-Type', ",
+					"    value: 'application/json' })",
+					"pm.request.headers.add({",
+					"    key: 'X-API-TOKEN', ",
+					"    value: '0b4a68d1-0ddd-4f89-9394-ef356925aaf7' })"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
