@@ -13,7 +13,6 @@ public class BinarFoodApplication {
 		Setup setup = SpringApplication.run(BinarFoodApplication.class)
 				.getBean(Setup.class);
 		setup.setup();
-		// setup
 	}
 
 }

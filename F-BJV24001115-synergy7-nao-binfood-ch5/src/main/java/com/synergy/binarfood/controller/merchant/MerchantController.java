@@ -6,6 +6,7 @@ import com.synergy.binarfood.service.MerchantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -80,5 +81,64 @@ public class MerchantController {
         MerchantIncomeResponse response = this.merchantService.getIncomeByRange(request);
 
         return WebResponse.<MerchantIncomeResponse>builder().data(response).build();
+    }
+
+    @PostMapping(
+            path = "",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<MerchantResponse> create(
+            Authentication authentication,
+            @RequestBody MerchantRequest request) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        request.setUsername(userDetails.getUsername());
+
+        MerchantResponse merchant = this.merchantService.create(request);
+
+        return WebResponse.<MerchantResponse>builder()
+                .data(merchant)
+                .build();
+    }
+
+    @PutMapping(
+            path = "/{merchantId}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<MerchantResponse> update(
+            Authentication authentication,
+            @PathVariable("merchantId") String merchantId,
+            @RequestBody MerchantRequest request) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        request.setUsername(userDetails.getUsername());
+        request.setId(merchantId);
+
+        MerchantResponse merchant = this.merchantService.update(request);
+
+        return WebResponse.<MerchantResponse>builder()
+                .data(merchant)
+                .build();
+    }
+
+    @DeleteMapping(
+            path = "/{merchantId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> delete(
+            Authentication authentication,
+            @PathVariable("merchantId") String merchantId) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        MerchantDeleteRequest request = MerchantDeleteRequest.builder()
+                        .username(userDetails.getUsername())
+                        .merchantId(merchantId)
+                                .build();
+
+        this.merchantService.delete(request);
+
+        return WebResponse.<String>builder()
+                .data(null)
+                .build();
     }
 }

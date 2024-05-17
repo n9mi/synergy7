@@ -100,4 +100,68 @@ public class MerchantServiceImpl implements MerchantService {
                 .build();
         return merchantIncomeResponse;
     }
+
+    public MerchantResponse create(MerchantRequest request) {
+        this.validationService.validate(request);
+
+        User user = this.userRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user doesn't exists"));
+        Merchant merchant = Merchant.builder()
+                .name(request.getName())
+                .location(request.getLocation())
+                .open(request.isOpen())
+                .user(user)
+                .build();
+        this.merchantRepository.save(merchant);
+
+        return MerchantResponse.builder()
+                .id(String.valueOf(merchant.getId()))
+                .name(merchant.getName())
+                .location(merchant.getLocation())
+                .open(merchant.isOpen())
+                .build();
+    }
+
+    public MerchantResponse update(MerchantRequest request) {
+        this.validationService.validate(request);
+
+        User user = this.userRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user doesn't exists"));
+        Merchant merchant = this.merchantRepository
+                .findById(UUID.fromString(request.getId()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant doesn't exists"));
+        if (!user.getId().equals(merchant.getUser().getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant doesn't exists");
+        }
+
+        merchant.setName(request.getName());
+        merchant.setLocation(request.getLocation());
+        merchant.setOpen(request.isOpen());
+        this.merchantRepository.save(merchant);
+
+        return MerchantResponse.builder()
+                .id(String.valueOf(merchant.getId()))
+                .name(merchant.getName())
+                .location(merchant.getLocation())
+                .open(merchant.isOpen())
+                .build();
+    }
+
+    public void delete(MerchantDeleteRequest request) {
+        this.validationService.validate(request);
+
+        User user = this.userRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user doesn't exists"));
+        Merchant merchant = this.merchantRepository
+                .findById(UUID.fromString(request.getMerchantId()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant doesn't exists"));
+        if (!user.getId().equals(merchant.getUser().getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant doesn't exists");
+        }
+
+        this.merchantRepository.delete(merchant);
+    }
 }

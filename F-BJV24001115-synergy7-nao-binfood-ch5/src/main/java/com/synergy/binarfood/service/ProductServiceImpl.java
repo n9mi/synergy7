@@ -22,6 +22,7 @@ import java.util.function.Function;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final MerchantRepository merchantRepository;
+    private final ValidationService validationService;
 
     public Page<ProductResponse> findAllByMerchant(ProductGetByMerchantRequest request) {
         Merchant merchant = this.merchantRepository.findById(UUID.fromString(request.getMerchantId()))
@@ -41,4 +42,6 @@ public class ProductServiceImpl implements ProductService {
             }
         });
     }
+
+
 }

@@ -4,7 +4,6 @@ import com.synergy.binarfood.model.merchant.MerchantGetRequest;
 import com.synergy.binarfood.model.merchant.MerchantResponse;
 import com.synergy.binarfood.model.web.WebResponse;
 import com.synergy.binarfood.service.MerchantService;
-import com.synergy.binarfood.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -32,13 +31,5 @@ public class BuyerMerchantController {
         Page<MerchantResponse> response = this.merchantService.findAll(request);
 
         return WebResponse.<List<MerchantResponse>>builder().data(response.getContent()).build();
-    }
-
-    @RequiredArgsConstructor
-    @RestController
-    @RequestMapping("/api/v1/")
-    public static class OrderController {
-        private final OrderService orderService;
-
     }
 }
