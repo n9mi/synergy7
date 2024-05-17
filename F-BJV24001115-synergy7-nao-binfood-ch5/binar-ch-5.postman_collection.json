@@ -1,0 +1,812 @@
+{
+	"info": {
+		"_postman_id": "7f55ec6e-8f6e-4e23-88bf-a43a26e10081",
+		"name": "binar-ch-5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32867185"
+	},
+	"item": [
+		{
+			"name": "[AUTH] Merchant - Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"merchant1\",\n    \"email\": \"merchant1@example.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/auth/merchant/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"merchant",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[AUTH] Merchant - Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"merchant1\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/auth/merchant/login",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"merchant",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[AUTH] Buyer - Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"buyer1\",\n    \"email\": \"buyer1@example.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/auth/buyer/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"buyer",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[AUTH] Buyer - Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"buyer1\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/auth/buyer/login",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"buyer",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[USER] Get user profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/user/profile",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Get all user's merchants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Get user's merchant monthly report",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/adf836b2-780c-4cd5-a155-fcfc6839b904/monthly-report",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"adf836b2-780c-4cd5-a155-fcfc6839b904",
+						"monthly-report"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Create merchant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test\",\n    \"location\": \"Test location\",\n    \"open\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Update merchant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test A\",\n    \"location\": \"Test A location\",\n    \"open\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/64101d97-2b6b-4792-bbcd-264490d81d6c",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"64101d97-2b6b-4792-bbcd-264490d81d6c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Delete merchant",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Test A\",\n    \"location\": \"Test A location\",\n    \"open\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/780141ee-76fc-46e1-a640-962a5d8794ba",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"780141ee-76fc-46e1-a640-962a5d8794ba"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Get products by merchant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/0ae17a58-d70d-4a42-9815-7e5ed3cbbb55/products",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"0ae17a58-d70d-4a42-9815-7e5ed3cbbb55",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Create products by merchant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"product coba\",\n    \"price\": 20000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/adf836b2-780c-4cd5-a155-fcfc6839b904/products",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"adf836b2-780c-4cd5-a155-fcfc6839b904",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Create products by merchant Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"product coba 1\",\n    \"price\": 25000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/adf836b2-780c-4cd5-a155-fcfc6839b904/products/9cb02750-1509-4b1e-8415-ccbc7d08ab9d",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"adf836b2-780c-4cd5-a155-fcfc6839b904",
+						"products",
+						"9cb02750-1509-4b1e-8415-ccbc7d08ab9d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[MERCHANT] Create products by merchant Copy 2",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/merchant/merchants/adf836b2-780c-4cd5-a155-fcfc6839b904/products/9cb02750-1509-4b1e-8415-ccbc7d08ab9d",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"merchant",
+						"merchants",
+						"adf836b2-780c-4cd5-a155-fcfc6839b904",
+						"products",
+						"9cb02750-1509-4b1e-8415-ccbc7d08ab9d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Get all opened merchants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/merchants",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"merchants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Get products by merchant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/merchants/cb71ad1b-8a84-4481-8c2f-2daa8332b03d/products",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"merchants",
+						"cb71ad1b-8a84-4481-8c2f-2daa8332b03d",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Create orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destinationAddress\": \"A\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Create order detail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"eed79653-60b0-4206-b414-4675d4e9fb95\",\n    \"quantity\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders/3fab5fd1-826a-4e40-9619-5380db489e21/order-details",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders",
+						"3fab5fd1-826a-4e40-9619-5380db489e21",
+						"order-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Checkout (Invoice PDF)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders/3fab5fd1-826a-4e40-9619-5380db489e21/checkout",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders",
+						"3fab5fd1-826a-4e40-9619-5380db489e21",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Update order detail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"0e3fa78b-53e8-410c-898a-f728dfc9c3ba\",\n    \"quantity\": 12\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders/6e1870f6-eca5-49a2-9565-f68f55535f9b/order-details",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders",
+						"6e1870f6-eca5-49a2-9565-f68f55535f9b",
+						"order-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Delete order detail",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"c13d927e-21f8-4613-8aa5-1c64672bedd1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders/38be2639-8ea9-4c1c-9918-78e56e1bf1e3/order-details",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders",
+						"38be2639-8ea9-4c1c-9918-78e56e1bf1e3",
+						"order-details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Get current user orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[BUYER] Get current user orders Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/api/v1/buyer/orders/a03b074d-a73a-4dd9-86cd-6e932ac721b0/order-details",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"buyer",
+						"orders",
+						"a03b074d-a73a-4dd9-86cd-6e932ac721b0",
+						"order-details"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJidXllcjEiLCJpYXQiOjE3MTU5NjM2OTEsImV4cCI6MTcxNTk2NTEzMX0.kZvyqfqjCYIuxtL6T9-PUKXZYnTw515yjeSLMsO9h-o",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"pm.request.headers.add({",
+					"    key: 'Content-Type', ",
+					"    value: 'application/json' })"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
