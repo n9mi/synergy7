@@ -27,6 +27,7 @@ import java.util.function.Function;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final ValidationService validationService;
+
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final UserRepository userRepository;
@@ -212,7 +213,7 @@ public class OrderServiceImpl implements OrderService {
                         .getOrderDetails()
                         .stream()
                         .map(OrderDetail::getTotalPrice)
-                        .reduce(0.0, Double::sum))))
+                            .reduce(0.0, Double::sum))))
                 .completedAt(dateFormat.format(order.getCompletedAt()))
                 .items(invoiceItem)
                 .build();

@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "order_details")
-@SQLDelete(sql = "update order_details set deleted_date = now() where orderId = ?")
+@SQLDelete(sql = "update order_details set deleted_date = now() where id = ?")
 @SQLRestriction("deleted_date is null")
 public class OrderDetail extends BaseEntity {
     @Id

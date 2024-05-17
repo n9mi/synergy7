@@ -122,6 +122,50 @@ public class MerchantController {
                 .build();
     }
 
+    @PatchMapping(
+            path = "/{merchantId}/open",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> openMerchant(
+            Authentication authentication,
+            @PathVariable("merchantId") String merchantId) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        MerchantUpdateStatusRequest request = MerchantUpdateStatusRequest.builder()
+                .username(userDetails.getUsername())
+                .merchantId(merchantId)
+                .openStatus(MerchantStatus.OPEN)
+                .build();
+        this.merchantService.updateStatus(request);
+
+        return WebResponse.<String>builder()
+                .data(null)
+                .build();
+    }
+
+    @PatchMapping(
+            path = "/{merchantId}/close",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public WebResponse<String> closeMerchant(
+            Authentication authentication,
+            @PathVariable("merchantId") String merchantId) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        MerchantUpdateStatusRequest request = MerchantUpdateStatusRequest.builder()
+                        .username(userDetails.getUsername())
+                                .merchantId(merchantId)
+                                        .openStatus(MerchantStatus.CLOSE)
+                                                .build();
+        this.merchantService.updateStatus(request);
+
+        return WebResponse.<String>builder()
+                .data(null)
+                .build();
+    }
+
     @DeleteMapping(
             path = "/{merchantId}",
             produces = MediaType.APPLICATION_JSON_VALUE

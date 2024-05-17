@@ -8,5 +8,6 @@ public interface MerchantService {
     public MerchantIncomeResponse getIncomeByRange(MerchantGetIncomeRequest request);
     public MerchantResponse create(MerchantRequest request);
     public MerchantResponse update(MerchantRequest request);
+    public void updateStatus(MerchantUpdateStatusRequest request);
     public void delete(MerchantDeleteRequest request);
 }

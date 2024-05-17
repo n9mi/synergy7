@@ -149,6 +149,23 @@ public class MerchantServiceImpl implements MerchantService {
                 .build();
     }
 
+    public void updateStatus(MerchantUpdateStatusRequest request) {
+        this.validationService.validate(request);
+
+        User user = this.userRepository
+                .findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user doesn't exists"));
+        Merchant merchant = this.merchantRepository
+                .findById(UUID.fromString(request.getMerchantId()))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant doesn't exists"));
+        if (!user.getId().equals(merchant.getUser().getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "merchant doesn't exists");
+        }
+
+        merchant.setOpen(request.getOpenStatus() == MerchantStatus.OPEN);
+        this.merchantRepository.save(merchant);
+    }
+
     public void delete(MerchantDeleteRequest request) {
         this.validationService.validate(request);
 
