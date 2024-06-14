@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: binarfood-core
+  datasource:
+    url: jdbc:postgresql://localhost:5432/binarfood-core-db
+    username: postgres
+    password: postgre
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 8080
+security:
+  jwt:
+    secret-key: 197ff3492d1011da8ff93ffb0d735d00e7ef729e627e989940f70495845c2fdb
+    expired-minutes: 1000
