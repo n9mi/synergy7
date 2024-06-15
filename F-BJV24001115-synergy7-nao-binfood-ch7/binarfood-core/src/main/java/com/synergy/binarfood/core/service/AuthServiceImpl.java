@@ -7,17 +7,21 @@ import com.synergy.binarfood.core.entity.User;
 import com.synergy.binarfood.core.entity.UserRegistrationOtp;
 import com.synergy.binarfood.core.message.MailMessage;
 import com.synergy.binarfood.core.message.MailType;
+import com.synergy.binarfood.core.model.auth.LoginRequest;
 import com.synergy.binarfood.core.model.auth.RegisterRequest;
+import com.synergy.binarfood.core.model.auth.TokenResponse;
 import com.synergy.binarfood.core.repository.RoleRepository;
 import com.synergy.binarfood.core.repository.UserRegistrationOtpRepository;
 import com.synergy.binarfood.core.repository.UserRepository;
 import com.synergy.binarfood.core.security.service.JWTService;
+import com.synergy.binarfood.core.security.user.UserDetailsImpl;
 import com.synergy.binarfood.core.util.random.Randomizer;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,5 +86,23 @@ public class AuthServiceImpl implements AuthService {
                 .data(otpCode)
                 .build();
         this.mailPublisherService.publish(mailMessage);
+    }
+
+    @Transactional
+    public TokenResponse login(LoginRequest request) {
+        this.validationService.validate(request);
+
+        User user = this.userRepository
+                .findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "user not found"));
+        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getEmail(),
+                request.getPassword()
+        ));
+        String token = this.jwtService.generateToken(UserDetailsImpl.build(user));
+
+        return TokenResponse.builder()
+                .accessToken(token)
+                .build();
     }
 }

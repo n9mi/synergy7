@@ -17,8 +17,13 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8080
+  port: 8081
 security:
   jwt:
     secret-key: 197ff3492d1011da8ff93ffb0d735d00e7ef729e627e989940f70495845c2fdb
     expired-minutes: 1000
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka

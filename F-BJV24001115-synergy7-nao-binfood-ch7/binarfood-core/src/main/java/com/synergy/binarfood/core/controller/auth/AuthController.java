@@ -1,7 +1,9 @@
 package com.synergy.binarfood.core.controller.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.synergy.binarfood.core.model.auth.LoginRequest;
 import com.synergy.binarfood.core.model.auth.RegisterRequest;
+import com.synergy.binarfood.core.model.auth.TokenResponse;
 import com.synergy.binarfood.core.model.web.WebResponse;
 import com.synergy.binarfood.core.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,16 @@ public class AuthController {
         this.authService.register(request);
         WebResponse<String> response = WebResponse.<String>builder()
                 .data(null)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<WebResponse<TokenResponse>> login(@RequestBody LoginRequest request) {
+        TokenResponse tokenResponse = this.authService.login(request);
+        WebResponse<TokenResponse> response = WebResponse.<TokenResponse>builder()
+                .data(tokenResponse)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

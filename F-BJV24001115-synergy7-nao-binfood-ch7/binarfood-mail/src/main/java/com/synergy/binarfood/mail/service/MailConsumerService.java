@@ -40,7 +40,9 @@ public class MailConsumerService {
     public <T> void consumeRegistrationOtp(String mailMessageStr) throws JsonMappingException, JsonProcessingException {
         MailMessage<String> mailMessage = this.objectMapper.readValue(mailMessageStr,
                 new TypeReference<MailMessage<String>>() {});
-        this.sendMail(mailMessage.getRecipient(), "BINARFOOD REGISTRATION OTP", mailMessage.getData());
+        this.sendMail(mailMessage.getRecipient(),
+                "BINARFOOD REGISTRATION OTP",
+                String.format("Your registration otp is %s", mailMessage.getData()));
 
         log.info("[ REGISTRATION OTP SENT ] : " + mailMessageStr);
     }

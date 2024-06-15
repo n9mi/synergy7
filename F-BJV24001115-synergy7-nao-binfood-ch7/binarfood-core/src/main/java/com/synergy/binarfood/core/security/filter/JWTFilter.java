@@ -54,7 +54,7 @@ public class JWTFilter extends OncePerRequestFilter {
                             userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                    if (!request.getRequestURI().startsWith("/api/v1/verification") &&
+                    if (!request.getRequestURI().startsWith("/api/v1/core/verification") &&
                             !this.userService.isUserVerifiedByEmail(userDetails.getUsername())) {
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "user haven't verified yet");
                     }
