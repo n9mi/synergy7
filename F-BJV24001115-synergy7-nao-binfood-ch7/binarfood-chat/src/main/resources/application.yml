@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: binarfood-chat
+
+socket-io:
+  hostname: localhost
+  port: 8383
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka
+
