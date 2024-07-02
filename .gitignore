@@ -1,5 +1,5 @@
 */target/**
 */.idea
 */receipts/**
-**/.firebase-admin-sdk.json
-**/node_modules/**
+*/.firebase-admin-sdk.json
+*/node_modules/**
