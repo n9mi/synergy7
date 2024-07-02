@@ -19,7 +19,7 @@ public class PromotionScheduler {
 
     private final FCMService fcmService;
 
-    @Scheduled(cron = "0 0 11,12 * * *")
+    @Scheduled(cron = "0 0 11,12 * * *", zone="Asia/Jakarta")
     public void broadcastLunchPromotion() throws ExecutionException, InterruptedException {
         log.info("Message scheduler called");
         NotificationContent notificationContent = NotificationContent.builder()
