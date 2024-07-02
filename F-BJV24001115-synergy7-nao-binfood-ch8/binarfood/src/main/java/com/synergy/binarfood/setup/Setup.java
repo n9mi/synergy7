@@ -26,6 +26,7 @@ public class Setup {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final DiscountRepository discountRepository;
     private final Random random;
     private final PasswordEncoder passwordEncoder;
 
@@ -190,5 +191,14 @@ public class Setup {
 
         log.info("[SUCCESS] Seeds {} records to orders table", orders.size());
         log.info("[SUCCESS] Seeds {} records to order_details table", orders.size());
+
+        Discount discount = Discount.builder()
+                .name("Lunch discount")
+                .description("Automatically applied every 12.00 PM - 12.59 PM")
+                .stillValid(true)
+                .percentageAmount(10)
+                .IDRAmount(0)
+                .build();
+        this.discountRepository.saveAndFlush(discount);
     }
 }

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "coba-binarfood",
+  "private_key_id": "583ddf1e44a00d17a8fd29c62a509d35ae40cffa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCu2dzOZkvG7kuf\nBS5+XXHGZs81jszR9VVxjIjY5mQpFOqVWs6ze/3R9UoUGowGuXcOvonfJQbACGNL\nHPb+twSn9dRM+lZbp+5UM+VzTBMYBfHoQ8rbK0Fl6s+PL1dyN8MyCsV4hONR6cjL\n+rEMprDFVereGqczwUf1UWZ9XvkiksEaazvFjwgW2leYEGe736v8AxTNfFcS4rU8\nI0qakHrCwTqWkZcuzlYpwprPshgfrkn092q1dcjG0qhZH2vaicJTMcqhFzTtfaqe\nCQoOk/J9wR/8Ysknw4D/Wlba3TsIXvlvGH0TQWzOerPH8Sd0N6IX3nG2Edsu9Sdd\nywy4mel7AgMBAAECgf8MuqOJbojZYx+BsHnI2eJs5zmLdszZJbZ8rlR3Xw7TKyTJ\nywhjfGvljS72ZQ8wETF0LFdQ75IKJ6QbCZUpFo7oKoszQ5xFbn1Bp0k0GfPcplq0\n1b6vR+Qd/LWvDUQQ3vL1ED9Mvj9FVYG63yhPgj6155UeEIRmoFuk4IlmRZqQ396n\n2IRogRZal77EKJDNDUCZcgi0KMsWvpjI+ZpOziRNRg6u3EmE/t8/m8LKo/CcmTyt\nWNqOPwdW9lpOxkpxubVbCekRl70sdq++21MvSOyVG9/nELrSEAYxsL7JC1DJyJWQ\nLM1tOT5BFZSjga+y7yIl5cv/YEnXrqD9Mx+4p1ECgYEA5ctafwMP53PhrBrG5eWI\ntjsfno4CnLMVqeB9LtIzgduhA5yG/euRb8yfU2H5fkuGImCbQI41Ge5Pl88yHhgY\niFdCGQNA7mckxG4GuoH2ssY9gKP7FnRqgcW59Uld/I/LNywc5L8L8MfOFMTR9JLx\nuitDaSIER4Y2e048pnBBgh8CgYEAwsp8g7nj2QFOoCvYBYtHLdCtF0heVvyid3wg\nsZ62Vi9fsu8u927ch6uURtVl74UEb6W1jPRyfRB0kNquqa6fEyl+PNO7br4CRzrV\nKNVuFUTL6Ur38mL+03P3ZKhWT9JLXKVkowzO17cbup1lc6/6x2Lnu6Ac5W9nh7f4\nSYh4hSUCgYBWe88mSCe/Kyy+0iETOuzV8LB4wueWxAueMJ/MdE3wTJFvw4RGolbN\nJcy82/3DG3dzDrq/dAXmKXuJHfC1xMnO3lBBC6lvUCBVUTd1EB6hr9xLwutnyw6e\noqTW/PLDb/bCX/bL3F8JEpmr1VtTWc5iC5BGTAgiRw/QHmTTGyJ8bwKBgGEE/ZOW\niNfTANhiPgw03NUC9NN95g8pcbpVhusxA9xVaDL1Us1G2Gxylz3YmBb+h8EcJhr4\nvfVwtr5XTVuScATZS9j8FIUJ+pSDxxu5gkTxqSafgnOlvwqO3g+ykJrdQU/5yPA1\nNujWeOcv8hH2+s9Igec/zmSwYj6E8ROe93hJAoGARBzS/718ltDUQ8mFMYh6eLQl\nrQNm7WGdPC3IM4bfM633IUAcGdT4vsaaN0ymGvg2QZADDPL7fC1s1ofBHKMZwuwj\n/+gRiFBVifVafTPZyd0LUQOLxEzJaDpvcdxlaGfn9385lahPSlhL7KFcVYKT1X+b\n6TFEHRCdezOPI9vXH6k=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-yzf62@coba-binarfood.iam.gserviceaccount.com",
+  "client_id": "114905962726654338395",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-yzf62%40coba-binarfood.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
